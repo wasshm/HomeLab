@@ -1,0 +1,126 @@
+site_name: Sport Ludique Chartres
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.tabbed
+  - attr_list
+  - md_in_html
+  - pymdownx.superfences
+  - pymdownx.tilde
+  - pymdownx.tasklist:
+      custom_checkbox: true
+      clickable_checkbox: true
+
+plugins: 
+  - drawio 
+  - search
+theme :
+  icon :
+    annotation : material/arrow-right-circle-outline
+  features:
+    - content.code.copy
+  logo : logo.png
+  name : material
+  language : fr
+  palette:
+    - scheme: default
+      primary: red
+      accent: white
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      primary: red
+      accent: white
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+nav:
+  - Introduction: index.md
+  - Documentation Mkdocs:
+      - Plugins: DocumentationMkdocs/Plugins/plugin.md
+      - Syntaxe: DocumentationMkdocs/Syntaxe/Syntaxe.md
+  - Switch Core:
+      - Configuration du Switch Core & Stack : SWCore/reseau.md
+      - DHCP SnooPing : SWCore/dhcp-snooping.md
+      - LACP : SWCore/lacp_hp_a5500.md
+  - Routeur:
+      - R1: Routeur/R1.md
+      - R2: Routeur/R2.md 
+      - Protocoles:
+          - HSRP: Routeur/hsrp.md
+          - PAT: Routeur/PAT.md
+  - Pare-feux:
+      - Régle Pare-Feu: Pare-feux/réglePF.md
+      - PFW: Pare-feux/stormshield.md
+      - Proxy: Pare-feux/proxy.md
+      - LDAPS - Liaison PFW & AD: Pare-feux/ldaps-pfw.md
+      - VFW: Pare-feux/opnsense.md
+      - UFW: Pare-feux/UFW.md
+  - SuperVision:
+      - Zabbix: SuperVision/zabbix.md
+  - HyperViseur:
+      - Proxmox & Raid: Hyperviseur/proxmox-raid.md
+      - Incident HyperViseur & Proxmox: Hyperviseur/probleme.md
+      - Gestion Vlan on VM Proxmox: Hyperviseur/vlan-prox.md
+      - Protocoles: 
+          - LACP on Proxmox: Hyperviseur/lacp-proxmox.md
+          - LDAPS on Proxmox: Hyperviseur/ldaps-prox.md
+  - Service Active Directory:
+      - Incident Utilisateurs Active Directory: Service AD/incidents.md
+      - Domaine Active Directory: Service AD/ad.md
+      - Active Directory BackUP: Service AD/adbackup.md
+      - Gestion Utilisateurs AD: Service AD/adusers.md
+      - Liaison Proxmox & AD: Service AD/liaison-prox-ad.md
+      - Cerficat ADCS & LDAPS: Service AD/adcs.md
+      - Service Active Directory:
+          - Serveur DNS (Actuellement Innactif): Service AD/dns.md
+          - Serveur DHCP: Service AD/dhcp.md
+          - Serveur Fichier: Service AD/servfichier.md
+  - DNS:
+      - DNS Autorité: DNS/DNS-autorité.md
+      - DNS Resolveur: DNS/DNS Resolveur.md
+  - Serveurs: 
+      - Logs:
+          - Graylog: Serveurs/Logs/Graylog.md
+          - Datanode: Serveurs/Logs/Datanode.md
+          - Interface Web Graylog: Serveurs/Logs/InterfaceWebLog.md
+          - Rsyslog via Ansible: Serveurs/Logs/Rsyslog.md
+          - NXlog: Serveurs/Logs/NXlog.md
+          - Fiwerall: Serveurs/Logs/LogPFWetVFW.md
+      - ReverseProxy: 
+          - Configuration ReverseProxy: Serveurs/ReverseProxy/Rp.md
+          - ReverseProxy Secondaire: Serveurs/ReverseProxy/RpSec.md
+      - Base de Données: Serveurs/bdd.md
+      - Serveur Ansible: Serveurs/ansible.md
+      - Serveur web: Serveurs/Web.md
+      - Serveur Mail: Serveurs/mail.md
+      - Docker: Serveurs/docker.md
+  - Services: 
+      - SSH sécurisé : Services/ssh_secure_ansible.md
+      - Radius : Services/radius.md
+      - NTP: Services/ntp.md
+      - Sécurité:
+          - Certificat Autorité & SSL: Services/ca.md
+          - Certificat HTTPS: Services/https.md
+      - GLPI: 
+          - Installation GLPI: Services/GLPI/Glpi.md
+          - Liaison AD & GLPI via LDAP: Services/GLPI/Glpi2.md
+          - Inventaire - Agent GLPI via Ansible (Linux): Services/GLPI/Glpi3.md   
+          - Inventaire - Agent GLPI via GPO (Windows): Services/GLPI/Glpi5.md   
+      - WordPress:
+          - Installation WordPress: Services/wordpress.md
+          - Configuration WordPress: Services/wordpress2.md
+          - Configuration Multi Site WordPress: Services/wordpress3.md
+      - Wi-Fi:
+          - Configuration de la borne: Services/Wifi/wifi.md
+          - Wifi Guest: Services/Wifi/Guest.md
+          - Wifi Slam: Services/Wifi/Slam.md
