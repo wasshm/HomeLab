@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conteneurs — Homelab Wassim</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="prompt">cat /etc/homelab.conf</div>
+      <h1>HOMELAB // WASSIM</h1>
+      <div class="sub">Documentation technique</div>
+    </div>
+    <nav class="nav-groups">
+      <div class="nav-group">
+        <h2>Vue d'ensemble</h2>
+        <ul><li><a href="index.html"><span class="dot up"></span>Accueil</a></li></ul>
+      </div>
+      <div class="nav-group">
+        <h2>Infrastructure</h2>
+        <ul>
+          <li><a href="infrastructure.html"><span class="dot up"></span>Hyperviseurs</a></li>
+          <li><a href="reseau-securite.html"><span class="dot up"></span>Réseau &amp; sécurité</a></li>
+        </ul>
+      </div>
+      <div class="nav-group">
+        <h2>Services</h2>
+        <ul>
+          <li><a href="annuaire.html"><span class="dot up"></span>Annuaire AD</a></li>
+          <li><a href="donnees-automatisation.html"><span class="dot up"></span>Données &amp; automatisation</a></li>
+          <li><a href="conteneurs.html" class="active"><span class="dot up"></span>Conteneurs</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="sidebar-foot">wass-production.local<br>172.16.28.0/24</div>
+  </aside>
+
+  <main>
+    <p class="eyebrow">services</p>
+    <h1 class="page-title">Conteneurs — SRV-DOCKER</h1>
+    <p class="lede">Un serveur Debian unique, Docker installé via le script officiel, qui porte
+      toute la couche applicative du lab : ITSM, supervision, exposition web.</p>
+
+    <h2 class="section">SRV-DOCKER <span class="badge up">actif</span></h2>
+    <table class="spec">
+      <tr><th>Rôle</th><td>Hôte de conteneurs applicatifs</td></tr>
+      <tr><th>Système</th><td>Debian</td></tr>
+      <tr><th>Moteur</th><td>Docker (script d'installation officiel)</td></tr>
+      <tr><th>Remarque</th><td>IPv6 désactivé dans <code>daemon.json</code></td></tr>
+    </table>
+
+    <h2 class="section">Services hébergés</h2>
+    <table class="spec">
+      <tr><th>GLPI</th><td>Gestion de parc / ITSM — inventaire et tickets du lab</td></tr>
+      <tr><th>Zabbix</th><td>Supervision infrastructure — disponibilité et métriques des VM</td></tr>
+      <tr><th>Grafana</th><td>Visualisation des métriques collectées (dont Zabbix)</td></tr>
+      <tr><th>Portainer</th><td>Administration visuelle des conteneurs Docker</td></tr>
+      <tr><th>Nginx Proxy Manager</th><td>Reverse proxy — point d'entrée unique pour les services web</td></tr>
+      <tr><th>Uptime Kuma</th><td>Supervision de disponibilité légère, page de statut du lab</td></tr>
+    </table>
+
+    <h2 class="section">Pourquoi cette approche</h2>
+    <ul class="list-marked">
+      <li>Regrouper les services applicatifs sur une VM légère plutôt que de multiplier les
+        machines virtuelles, pour rester proche des pratiques actuelles de déploiement.</li>
+      <li>Nginx Proxy Manager en frontal permet de n'exposer qu'un point d'entrée HTTPS
+        maîtrisé vers OPNsense, plutôt qu'un port par service.</li>
+      <li>Zabbix + Grafana donnent une vraie chaîne de supervision (collecte → visualisation),
+        réutilisable telle quelle sur un poste en entreprise.</li>
+    </ul>
+
+    <div class="page-nav">
+      <a href="donnees-automatisation.html">← Données &amp; automatisation</a>
+      <a href="index.html">Retour à l'accueil →</a>
+    </div>
+  </main>
+</div>
+</body>
+</html>

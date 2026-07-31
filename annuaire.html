@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Annuaire AD — Homelab Wassim</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="prompt">cat /etc/homelab.conf</div>
+      <h1>HOMELAB // WASSIM</h1>
+      <div class="sub">Documentation technique</div>
+    </div>
+    <nav class="nav-groups">
+      <div class="nav-group">
+        <h2>Vue d'ensemble</h2>
+        <ul><li><a href="index.html"><span class="dot up"></span>Accueil</a></li></ul>
+      </div>
+      <div class="nav-group">
+        <h2>Infrastructure</h2>
+        <ul>
+          <li><a href="infrastructure.html"><span class="dot up"></span>Hyperviseurs</a></li>
+          <li><a href="reseau-securite.html"><span class="dot up"></span>Réseau &amp; sécurité</a></li>
+        </ul>
+      </div>
+      <div class="nav-group">
+        <h2>Services</h2>
+        <ul>
+          <li><a href="annuaire.html" class="active"><span class="dot up"></span>Annuaire AD</a></li>
+          <li><a href="donnees-automatisation.html"><span class="dot up"></span>Données &amp; automatisation</a></li>
+          <li><a href="conteneurs.html"><span class="dot up"></span>Conteneurs</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="sidebar-foot">wass-production.local<br>172.16.28.0/24</div>
+  </aside>
+
+  <main>
+    <p class="eyebrow">services</p>
+    <h1 class="page-title">Annuaire Active Directory</h1>
+    <p class="lede">Le domaine <code>wass-production.local</code> est porté par deux contrôleurs
+      de domaine, pour pratiquer une topologie réplication et non un AD à contrôleur unique.</p>
+
+    <h2 class="section">DC01 <span class="badge up">actif</span></h2>
+    <table class="spec">
+      <tr><th>Rôle</th><td>Contrôleur de domaine principal</td></tr>
+      <tr><th>Domaine</th><td>wass-production.local</td></tr>
+      <tr><th>Services</th><td>AD DS, DNS, catalogue global</td></tr>
+    </table>
+
+    <h2 class="section">DC02 <span class="badge up">actif</span></h2>
+    <table class="spec">
+      <tr><th>Rôle</th><td>Contrôleur de domaine secondaire — réplication</td></tr>
+      <tr><th>Domaine</th><td>wass-production.local</td></tr>
+      <tr><th>Services</th><td>AD DS, DNS secondaire</td></tr>
+    </table>
+
+    <h2 class="section">Pourquoi deux DC ?</h2>
+    <ul class="list-marked">
+      <li>Pratiquer la réplication AD et le comportement du domaine en cas de perte d'un
+        contrôleur — un scénario impossible à tester avec un seul DC.</li>
+      <li>Assurer une résolution DNS interne redondante pour le reste du lab (base de données,
+        conteneurs, futures VM d'automatisation).</li>
+      <li>Se rapprocher d'une architecture d'entreprise réaliste, où un AD mono-DC n'existe
+        quasiment jamais en production.</li>
+    </ul>
+
+    <div class="page-nav">
+      <a href="reseau-securite.html">← Réseau &amp; sécurité</a>
+      <a href="donnees-automatisation.html">Données &amp; automatisation →</a>
+    </div>
+  </main>
+</div>
+</body>
+</html>

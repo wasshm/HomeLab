@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hyperviseurs — Homelab Wassim</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="prompt">cat /etc/homelab.conf</div>
+      <h1>HOMELAB // WASSIM</h1>
+      <div class="sub">Documentation technique</div>
+    </div>
+    <nav class="nav-groups">
+      <div class="nav-group">
+        <h2>Vue d'ensemble</h2>
+        <ul><li><a href="index.html"><span class="dot up"></span>Accueil</a></li></ul>
+      </div>
+      <div class="nav-group">
+        <h2>Infrastructure</h2>
+        <ul>
+          <li><a href="infrastructure.html" class="active"><span class="dot up"></span>Hyperviseurs</a></li>
+          <li><a href="reseau-securite.html"><span class="dot up"></span>Réseau &amp; sécurité</a></li>
+        </ul>
+      </div>
+      <div class="nav-group">
+        <h2>Services</h2>
+        <ul>
+          <li><a href="annuaire.html"><span class="dot up"></span>Annuaire AD</a></li>
+          <li><a href="donnees-automatisation.html"><span class="dot up"></span>Données &amp; automatisation</a></li>
+          <li><a href="conteneurs.html"><span class="dot up"></span>Conteneurs</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="sidebar-foot">wass-production.local<br>172.16.28.0/24</div>
+  </aside>
+
+  <main>
+    <p class="eyebrow">infrastructure</p>
+    <h1 class="page-title">Hyperviseurs</h1>
+    <p class="lede">Deux hyperviseurs cohabitent : Hyper-V comme socle principal du lab, Proxmox VE
+      comme terrain secondaire pour les tests qui ne doivent pas perturber le domaine en place.</p>
+
+    <h2 class="section">Hyper-V — hôte principal <span class="badge up">actif</span></h2>
+    <p>Héberge la majorité de la maquette : le pare-feu OPNsense, les deux contrôleurs de domaine,
+      le serveur de base de données et le serveur Docker. Choisi comme socle principal car c'est
+      l'hyperviseur utilisé au quotidien en environnement Windows Server chez l'employeur.</p>
+    <table class="spec">
+      <tr><th>Rôle</th><td>Hôte de virtualisation principal</td></tr>
+      <tr><th>Système hôte</th><td>Windows Server (rôle Hyper-V)</td></tr>
+      <tr><th>Réseau virtuel</th><td>Commutateur externe → LAN OPNsense (172.16.28.0/24)</td></tr>
+      <tr><th>VM hébergées</th><td>OPNsense, DC01, DC02, SRV-DB, SRV-DOCKER</td></tr>
+    </table>
+    <p class="small">Mis en place et durci au fil du projet : activation VT-x en BIOS/UEFI, migration du
+      disque système vers un SSD 500 Go (clonage Macrium Reflect), et fiabilisation de l'espace disque
+      pour éviter les échecs de Smart Paging.</p>
+
+    <h2 class="section">Proxmox VE — hôte secondaire <span class="badge up">actif</span></h2>
+    <p>Sert de bac à sable isolé : tester une brique (mise à jour, nouvelle stack, casse volontaire)
+      sans risquer la stabilité du domaine hébergé sur Hyper-V. Vocation à terme : accueillir les VM
+      d'automatisation et de supervision de sécurité (Ansible/AWX, Wazuh) une fois validées.</p>
+    <table class="spec">
+      <tr><th>Rôle</th><td>Hôte de virtualisation secondaire / tests</td></tr>
+      <tr><th>Système hôte</th><td>Proxmox VE</td></tr>
+      <tr><th>Usage</th><td>Isolation des essais, futures VM Ansible/AWX et Wazuh</td></tr>
+    </table>
+
+    <h2 class="section">Pourquoi deux hyperviseurs ?</h2>
+    <ul class="list-marked">
+      <li>Comparer concrètement deux écosystèmes de virtualisation (Type 1 Proxmox / rôle Hyper-V
+        sous Windows Server) plutôt que de rester sur un seul outil.</li>
+      <li>Cloisonner : le domaine de production du lab (AD, DNS, DB) reste stable pendant que
+        Proxmox absorbe les expérimentations risquées.</li>
+      <li>Refléter la réalité du terrain, où les environnements sont rarement mono-hyperviseur.</li>
+    </ul>
+
+    <div class="page-nav">
+      <a href="index.html">← Accueil</a>
+      <a href="reseau-securite.html">Réseau &amp; sécurité →</a>
+    </div>
+  </main>
+</div>
+</body>
+</html>

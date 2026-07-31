@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Données &amp; automatisation — Homelab Wassim</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="prompt">cat /etc/homelab.conf</div>
+      <h1>HOMELAB // WASSIM</h1>
+      <div class="sub">Documentation technique</div>
+    </div>
+    <nav class="nav-groups">
+      <div class="nav-group">
+        <h2>Vue d'ensemble</h2>
+        <ul><li><a href="index.html"><span class="dot up"></span>Accueil</a></li></ul>
+      </div>
+      <div class="nav-group">
+        <h2>Infrastructure</h2>
+        <ul>
+          <li><a href="infrastructure.html"><span class="dot up"></span>Hyperviseurs</a></li>
+          <li><a href="reseau-securite.html"><span class="dot up"></span>Réseau &amp; sécurité</a></li>
+        </ul>
+      </div>
+      <div class="nav-group">
+        <h2>Services</h2>
+        <ul>
+          <li><a href="annuaire.html"><span class="dot up"></span>Annuaire AD</a></li>
+          <li><a href="donnees-automatisation.html" class="active"><span class="dot up"></span>Données &amp; automatisation</a></li>
+          <li><a href="conteneurs.html"><span class="dot up"></span>Conteneurs</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="sidebar-foot">wass-production.local<br>172.16.28.0/24</div>
+  </aside>
+
+  <main>
+    <p class="eyebrow">services</p>
+    <h1 class="page-title">Données &amp; automatisation</h1>
+    <p class="lede">La brique donnée du lab, et le chantier en cours pour arrêter de tout
+      configurer à la main : Ansible et AWX.</p>
+
+    <h2 class="section">SRV-DB <span class="badge up">actif</span></h2>
+    <table class="spec">
+      <tr><th>Rôle</th><td>Serveur de base de données</td></tr>
+      <tr><th>Système</th><td>Ubuntu Server</td></tr>
+      <tr><th>SGBD</th><td>MariaDB</td></tr>
+      <tr><th>Consommateurs</th><td>Services applicatifs du lab (GLPI notamment)</td></tr>
+    </table>
+
+    <h2 class="section">Ansible / AWX <span class="badge plan">planifié</span></h2>
+    <p>
+      Objectif : sortir de la configuration manuelle VM par VM et industrialiser le déploiement
+      et la maintenance du lab via des playbooks — création de comptes, durcissement, déploiement
+      de certificats, mise à jour des paquets. AWX viendra ensuite comme interface de pilotage et
+      de planification par-dessus Ansible.
+    </p>
+    <ul class="list-marked">
+      <li>Inventaire ciblant les VM Windows (WinRM) et Linux (SSH) du lab.</li>
+      <li>Premiers playbooks visés : gestion des comptes AD, déploiement de certificats internes,
+        durcissement de base des VM Linux.</li>
+      <li>Vault Ansible pour la gestion des secrets (mots de passe de service, clés).</li>
+    </ul>
+
+    <h2 class="section">Pourquoi cette brique</h2>
+    <p>
+      C'est la partie du lab qui répond directement à un manque identifié en poste : la
+      configuration reste largement manuelle sur le terrain, alors que l'automatisation est un
+      attendu fort du programme MRIT visé en alternance. Construire cette brique en amont, sur un
+      environnement qu'on maîtrise de bout en bout, est la manière la plus directe de progresser
+      dessus avant la rentrée.
+    </p>
+
+    <div class="page-nav">
+      <a href="annuaire.html">← Annuaire AD</a>
+      <a href="conteneurs.html">Conteneurs →</a>
+    </div>
+  </main>
+</div>
+</body>
+</html>

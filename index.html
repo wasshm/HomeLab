@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Homelab Wassim — Documentation technique</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="prompt">cat /etc/homelab.conf</div>
+      <h1>HOMELAB // WASSIM</h1>
+      <div class="sub">Documentation technique</div>
+    </div>
+
+    <nav class="nav-groups">
+      <div class="nav-group">
+        <h2>Vue d'ensemble</h2>
+        <ul>
+          <li><a href="index.html" class="active"><span class="dot up"></span>Accueil</a></li>
+        </ul>
+      </div>
+      <div class="nav-group">
+        <h2>Infrastructure</h2>
+        <ul>
+          <li><a href="infrastructure.html"><span class="dot up"></span>Hyperviseurs</a></li>
+          <li><a href="reseau-securite.html"><span class="dot up"></span>Réseau &amp; sécurité</a></li>
+        </ul>
+      </div>
+      <div class="nav-group">
+        <h2>Services</h2>
+        <ul>
+          <li><a href="annuaire.html"><span class="dot up"></span>Annuaire AD</a></li>
+          <li><a href="donnees-automatisation.html"><span class="dot up"></span>Données &amp; automatisation</a></li>
+          <li><a href="conteneurs.html"><span class="dot up"></span>Conteneurs</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="sidebar-foot">
+      wass-production.local<br>
+      172.16.28.0/24
+    </div>
+  </aside>
+
+  <main>
+    <p class="eyebrow">documentation technique — v1</p>
+    <h1 class="page-title">Homelab Wassim</h1>
+    <p class="lede">
+      Un environnement d'infrastructure reproduit de bout en bout : virtualisation, réseau,
+      annuaire, base de données, conteneurs et automatisation — pensé comme un vrai
+      environnement de production, à l'échelle d'un lab personnel.
+    </p>
+
+    <h2 class="section">Contexte</h2>
+    <p>
+      Technicien IT chez A2K Informatique (Dreux) après un BTS SIO option SISR, je pratique au
+      quotidien l'administration réseau, la sécurité et la virtualisation. Ce homelab est l'endroit
+      où je pousse ces sujets plus loin que ce que permet le rythme d'un poste de terrain :
+      concevoir une infrastructure complète, la casser, la réparer, la documenter.
+    </p>
+    <p>
+      Il sert aussi de socle concret pour la suite : une entrée en Licence Pro MRIT
+      (Administration et Sécurité des Systèmes et des Réseaux) à l'IUT de Villetaneuse en
+      alternance, à partir de septembre 2026.
+    </p>
+
+    <h2 class="section">Objectif du projet</h2>
+    <ul class="list-marked">
+      <li>Reproduire une infrastructure d'entreprise réaliste : deux hyperviseurs, un domaine
+        Active Directory, un pare-feu périmétrique, une couche applicative conteneurisée.</li>
+      <li>Manipuler en profondeur les briques déjà utilisées en poste — AD, Fortinet/OPNsense,
+        VMware/Hyper-V — et celles encore à consolider — Ansible, supervision, SIEM.</li>
+      <li>Produire une documentation technique exploitable, à jour, qui sert de preuve de
+        compétence pour les candidatures en alternance.</li>
+      <li>Garder un terrain d'expérimentation permanent : chaque brique peut être cassée sans
+        conséquence sur un système de production.</li>
+    </ul>
+
+    <h2 class="section">Schéma réseau</h2>
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 1000 560" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schéma du réseau homelab">
+
+        <!-- Internet -->
+        <rect class="node-box" x="410" y="16" width="180" height="38" rx="4"/>
+        <text class="node-label" x="500" y="40" text-anchor="middle">INTERNET</text>
+
+        <line class="link-line" x1="500" y1="54" x2="500" y2="96"/>
+
+        <!-- OPNsense -->
+        <rect class="node-box accent" x="380" y="96" width="240" height="58" rx="4"/>
+        <text class="node-label" x="500" y="120" text-anchor="middle">OPNSENSE</text>
+        <text class="node-sub" x="500" y="136" text-anchor="middle">Pare-feu / routeur périmétrique</text>
+        <circle class="dot-svg status-pulse" cx="602" cy="106" r="4" fill="#e8a33d"/>
+
+        <line class="link-line" x1="500" y1="154" x2="500" y2="188"/>
+
+        <!-- LAN bus -->
+        <text class="node-sub" x="500" y="182" text-anchor="middle" fill="#5fb3a3">LAN — 172.16.28.0/24</text>
+        <line class="link-line teal" x1="60" y1="190" x2="968" y2="190"/>
+
+        <!-- connectors down to nodes -->
+        <line class="link-line" x1="129" y1="190" x2="129" y2="222"/>
+        <line class="link-line" x1="283" y1="190" x2="283" y2="222"/>
+        <line class="link-line" x1="437" y1="190" x2="437" y2="222"/>
+        <line class="link-line" x1="591" y1="190" x2="591" y2="222"/>
+        <line class="link-line" x1="745" y1="190" x2="745" y2="222" stroke-dasharray="3 3"/>
+        <line class="link-line" x1="899" y1="190" x2="899" y2="222" stroke-dasharray="3 3"/>
+
+        <!-- Node: DC01 -->
+        <rect class="node-box accent" x="60" y="222" width="138" height="78" rx="4"/>
+        <text class="node-label" x="129" y="250" text-anchor="middle">DC01</text>
+        <text class="node-sub" x="129" y="266" text-anchor="middle">Active Directory</text>
+        <text class="node-sub" x="129" y="280" text-anchor="middle">wass-production.local</text>
+        <circle class="status-pulse" cx="188" cy="234" r="4" fill="#e8a33d"/>
+
+        <!-- Node: DC02 -->
+        <rect class="node-box accent" x="214" y="222" width="138" height="78" rx="4"/>
+        <text class="node-label" x="283" y="250" text-anchor="middle">DC02</text>
+        <text class="node-sub" x="283" y="266" text-anchor="middle">Active Directory</text>
+        <text class="node-sub" x="283" y="280" text-anchor="middle">Réplication</text>
+        <circle class="status-pulse" cx="342" cy="234" r="4" fill="#e8a33d"/>
+
+        <!-- Node: SRV-DB -->
+        <rect class="node-box accent" x="368" y="222" width="138" height="78" rx="4"/>
+        <text class="node-label" x="437" y="250" text-anchor="middle">SRV-DB</text>
+        <text class="node-sub" x="437" y="266" text-anchor="middle">Ubuntu</text>
+        <text class="node-sub" x="437" y="280" text-anchor="middle">MariaDB</text>
+        <circle class="status-pulse" cx="496" cy="234" r="4" fill="#e8a33d"/>
+
+        <!-- Node: SRV-DOCKER -->
+        <rect class="node-box accent" x="522" y="222" width="138" height="78" rx="4"/>
+        <text class="node-label" x="591" y="250" text-anchor="middle">SRV-DOCKER</text>
+        <text class="node-sub" x="591" y="266" text-anchor="middle">Debian</text>
+        <text class="node-sub" x="591" y="280" text-anchor="middle">6 services</text>
+        <circle class="status-pulse" cx="650" cy="234" r="4" fill="#e8a33d"/>
+
+        <!-- Node: Ansible/AWX (planned) -->
+        <rect class="node-box plan" x="676" y="222" width="138" height="78" rx="4"/>
+        <text class="node-label" x="745" y="250" text-anchor="middle">ANSIBLE/AWX</text>
+        <text class="node-sub" x="745" y="266" text-anchor="middle">Automatisation</text>
+        <text class="node-sub" x="745" y="280" text-anchor="middle">à venir</text>
+        <circle cx="804" cy="234" r="4" fill="none" stroke="#5fb3a3" stroke-width="1.4"/>
+
+        <!-- Node: Wazuh (planned) -->
+        <rect class="node-box plan" x="830" y="222" width="138" height="78" rx="4"/>
+        <text class="node-label" x="899" y="250" text-anchor="middle">WAZUH</text>
+        <text class="node-sub" x="899" y="266" text-anchor="middle">SIEM / EDR</text>
+        <text class="node-sub" x="899" y="280" text-anchor="middle">à venir</text>
+        <circle cx="958" cy="234" r="4" fill="none" stroke="#5fb3a3" stroke-width="1.4"/>
+
+        <!-- comb bracket down to hypervisor layer -->
+        <line class="link-line" x1="129" y1="300" x2="129" y2="340"/>
+        <line class="link-line" x1="283" y1="300" x2="283" y2="340"/>
+        <line class="link-line" x1="437" y1="300" x2="437" y2="340"/>
+        <line class="link-line" x1="591" y1="300" x2="591" y2="340"/>
+        <line class="link-line" x1="745" y1="300" x2="745" y2="340" stroke-dasharray="3 3"/>
+        <line class="link-line" x1="899" y1="300" x2="899" y2="340" stroke-dasharray="3 3"/>
+        <line class="link-line" x1="60" y1="340" x2="968" y2="340"/>
+
+        <line class="link-line" x1="310" y1="340" x2="310" y2="380"/>
+        <line class="link-line" x1="690" y1="340" x2="690" y2="380"/>
+
+        <!-- Hypervisors -->
+        <rect class="node-box accent" x="140" y="380" width="340" height="86" rx="4"/>
+        <text class="node-label" x="310" y="416" text-anchor="middle" style="font-size:13px">HYPER-V</text>
+        <text class="node-sub" x="310" y="434" text-anchor="middle">Windows Server — hôte principal</text>
+
+        <rect class="node-box accent" x="520" y="380" width="340" height="86" rx="4"/>
+        <text class="node-label" x="690" y="416" text-anchor="middle" style="font-size:13px">PROXMOX VE</text>
+        <text class="node-sub" x="690" y="434" text-anchor="middle">Hôte secondaire — tests &amp; isolation</text>
+
+        <text class="node-sub" x="500" y="490" text-anchor="middle" fill="#565e6a" style="letter-spacing:.12em">COUCHE DE VIRTUALISATION</text>
+
+        <!-- legend -->
+        <circle cx="760" cy="524" r="4" fill="#e8a33d"/>
+        <text class="node-sub" x="772" y="528">actif</text>
+        <circle cx="830" cy="524" r="4" fill="none" stroke="#5fb3a3" stroke-width="1.4"/>
+        <text class="node-sub" x="842" y="528">planifié</text>
+      </svg>
+    </div>
+    <p class="small">Schéma simplifié — le détail des VLAN et règles de pare-feu est décrit dans la page Réseau &amp; sécurité.</p>
+
+    <h2 class="section">Composants</h2>
+    <div class="grid">
+      <a class="card" href="infrastructure.html">
+        <div class="card-head"><h3>Hyperviseurs</h3><span class="badge up">actif</span></div>
+        <p>Hyper-V (hôte principal) et Proxmox VE (hôte secondaire) — répartition des VM et ressources.</p>
+      </a>
+      <a class="card" href="reseau-securite.html">
+        <div class="card-head"><h3>Réseau &amp; sécurité</h3><span class="badge up">actif</span></div>
+        <p>OPNsense : interconnexion, LAN 172.16.28.0/24, règles de filtrage.</p>
+      </a>
+      <a class="card" href="annuaire.html">
+        <div class="card-head"><h3>Annuaire AD</h3><span class="badge up">actif</span></div>
+        <p>DC01 / DC02 — domaine wass-production.local, réplication.</p>
+      </a>
+      <a class="card" href="donnees-automatisation.html">
+        <div class="card-head"><h3>Données &amp; automatisation</h3><span class="badge up">actif</span></div>
+        <p>Serveur Ubuntu / MariaDB, et chantier Ansible / AWX pour l'industrialisation.</p>
+      </a>
+      <a class="card" href="conteneurs.html">
+        <div class="card-head"><h3>Conteneurs</h3><span class="badge up">actif</span></div>
+        <p>SRV-DOCKER (Debian) : GLPI, Zabbix, Grafana, Portainer, Nginx Proxy Manager, Uptime Kuma.</p>
+      </a>
+    </div>
+
+  </main>
+</div>
+</body>
+</html>

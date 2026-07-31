@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Réseau &amp; sécurité — Homelab Wassim</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="prompt">cat /etc/homelab.conf</div>
+      <h1>HOMELAB // WASSIM</h1>
+      <div class="sub">Documentation technique</div>
+    </div>
+    <nav class="nav-groups">
+      <div class="nav-group">
+        <h2>Vue d'ensemble</h2>
+        <ul><li><a href="index.html"><span class="dot up"></span>Accueil</a></li></ul>
+      </div>
+      <div class="nav-group">
+        <h2>Infrastructure</h2>
+        <ul>
+          <li><a href="infrastructure.html"><span class="dot up"></span>Hyperviseurs</a></li>
+          <li><a href="reseau-securite.html" class="active"><span class="dot up"></span>Réseau &amp; sécurité</a></li>
+        </ul>
+      </div>
+      <div class="nav-group">
+        <h2>Services</h2>
+        <ul>
+          <li><a href="annuaire.html"><span class="dot up"></span>Annuaire AD</a></li>
+          <li><a href="donnees-automatisation.html"><span class="dot up"></span>Données &amp; automatisation</a></li>
+          <li><a href="conteneurs.html"><span class="dot up"></span>Conteneurs</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="sidebar-foot">wass-production.local<br>172.16.28.0/24</div>
+  </aside>
+
+  <main>
+    <p class="eyebrow">infrastructure</p>
+    <h1 class="page-title">Réseau &amp; sécurité</h1>
+    <p class="lede">OPNsense tient le rôle de pare-feu et de routeur périmétrique : c'est le seul
+      point d'entrée/sortie du lab, et la référence pour tout le plan d'adressage.</p>
+
+    <h2 class="section">OPNsense <span class="badge up">actif</span></h2>
+    <table class="spec">
+      <tr><th>Rôle</th><td>Pare-feu / routeur périmétrique</td></tr>
+      <tr><th>Interface WAN</th><td>Sortie vers le réseau physique de la maison</td></tr>
+      <tr><th>Interface LAN</th><td>172.16.28.0/24</td></tr>
+      <tr><th>Sert</th><td>DHCP, DNS relais, filtrage, passerelle par défaut du lab</td></tr>
+    </table>
+    <p>
+      Installation reprise depuis zéro à plusieurs reprises pendant la construction du lab : bon
+      usage de l'installeur, réinitialisation du mot de passe via le menu console (option 3), et
+      résolution d'un conflit de sous-réseau qui empêchait le LAN de sortir correctement.
+    </p>
+
+    <h2 class="section">Plan d'adressage</h2>
+    <pre class="snippet"><span class="k">réseau</span>       <span class="v">172.16.28.0/24</span>
+<span class="k">passerelle</span>   <span class="v">172.16.28.1</span>  (OPNsense)
+<span class="k">domaine AD</span>   <span class="v">wass-production.local</span>
+<span class="k">DNS primaire</span> <span class="v">DC01</span>
+<span class="k">DNS secondaire</span> <span class="v">DC02</span></pre>
+
+    <h2 class="section">Filtrage</h2>
+    <ul class="list-marked">
+      <li>Politique par défaut : tout trafic entrant depuis le WAN est bloqué, seules les règles
+        explicites vers les services exposés (reverse proxy) sont autorisées.</li>
+      <li>Le trafic LAN → WAN est ouvert pour l'instant, avec un objectif de segmentation plus fine
+        (VLAN par usage : administration, services, tests) à mesure que le lab grandit.</li>
+      <li>Nginx Proxy Manager (sur SRV-DOCKER) centralise l'exposition HTTP/HTTPS des services web,
+        pour n'ouvrir qu'un point d'entrée contrôlé plutôt que chaque service individuellement.</li>
+    </ul>
+
+    <h2 class="section">Supervision de sécurité — Wazuh <span class="badge plan">planifié</span></h2>
+    <p>
+      Prochaine brique de la couche sécurité : un serveur Wazuh pour la collecte de logs, la
+      détection d'anomalies et un premier niveau d'EDR sur les VM du lab. Positionné comme la
+      suite logique une fois la supervision applicative (Zabbix) stabilisée.
+    </p>
+
+    <div class="page-nav">
+      <a href="infrastructure.html">← Hyperviseurs</a>
+      <a href="annuaire.html">Annuaire AD →</a>
+    </div>
+  </main>
+</div>
+</body>
+</html>
