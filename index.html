@@ -41,42 +41,36 @@
     </nav>
 
     <div class="sidebar-foot">
-      wass-production.local<br>
+      wass-industry.local<br>
       172.16.28.0/24
     </div>
   </aside>
 
   <main>
     <p class="eyebrow">documentation technique — v1</p>
-    <h1 class="page-title">Homelab Wassim</h1>
+    <h1 class="page-title">Homelab Wass-Industry</h1>
     <p class="lede">
-      Un environnement d'infrastructure reproduit de bout en bout : virtualisation, réseau,
+      Un environnement d'infrastructure : virtualisation, réseau,
       annuaire, base de données, conteneurs et automatisation — pensé comme un vrai
       environnement de production, à l'échelle d'un lab personnel.
     </p>
 
     <h2 class="section">Contexte</h2>
     <p>
-      Technicien IT chez A2K Informatique (Dreux) après un BTS SIO option SISR, je pratique au
-      quotidien l'administration réseau, la sécurité et la virtualisation. Ce homelab est l'endroit
-      où je pousse ces sujets plus loin que ce que permet le rythme d'un poste de terrain :
-      concevoir une infrastructure complète, la casser, la réparer, la documenter.
+      Après avoir obtenu mon BTS SIO option SISR, je reste passionné par l'administration réseau, la sécurité et la virtualisation. Ce homelab est l'endroit
+      où je pousse ces sujets plus loin : concevoir une infrastructure complète, la casser, la réparer, la documenter.
     </p>
-    <p>
-      Il sert aussi de socle concret pour la suite : une entrée en Licence Pro MRIT
-      (Administration et Sécurité des Systèmes et des Réseaux) à l'IUT de Villetaneuse en
-      alternance, à partir de septembre 2026.
-    </p>
+
 
     <h2 class="section">Objectif du projet</h2>
     <ul class="list-marked">
-      <li>Reproduire une infrastructure d'entreprise réaliste : deux hyperviseurs, un domaine
-        Active Directory, un pare-feu périmétrique, une couche applicative conteneurisée.</li>
-      <li>Manipuler en profondeur les briques déjà utilisées en poste — AD, Fortinet/OPNsense,
-        VMware/Hyper-V — et celles encore à consolider — Ansible, supervision, SIEM.</li>
-      <li>Produire une documentation technique exploitable, à jour, qui sert de preuve de
-        compétence pour les candidatures en alternance.</li>
-      <li>Garder un terrain d'expérimentation permanent : chaque brique peut être cassée sans
+      <li>Reproduire une infrastructure d'entreprise réaliste : deux hyperviseurs, deux domaines
+        Active Directory, un pare-feu, une couche applicative conteneurisée.</li>
+      <li>Manipuler en profondeur les acquis déjà utilisées — AD, OPNsense,
+        Proxmox... — et celles encore à consolider — zabbix, hyper-V, SIEM.</li>
+      <li>Produire une documentation technique, à jour, qui sert de preuve de
+        compétence.</li>
+      <li>Garder un terrain d'expérimentation permanent : chaque mise en place peut être cassée sans
         conséquence sur un système de production.</li>
     </ul>
 
@@ -93,7 +87,7 @@
         <!-- OPNsense -->
         <rect class="node-box accent" x="380" y="96" width="240" height="58" rx="4"/>
         <text class="node-label" x="500" y="120" text-anchor="middle">OPNSENSE</text>
-        <text class="node-sub" x="500" y="136" text-anchor="middle">Pare-feu / routeur périmétrique</text>
+        <text class="node-sub" x="500" y="136" text-anchor="middle">Pare-feu / routeur</text>
         <circle class="dot-svg status-pulse" cx="602" cy="106" r="4" fill="#e8a33d"/>
 
         <line class="link-line" x1="500" y1="154" x2="500" y2="188"/>
@@ -114,7 +108,7 @@
         <rect class="node-box accent" x="60" y="222" width="138" height="78" rx="4"/>
         <text class="node-label" x="129" y="250" text-anchor="middle">DC01</text>
         <text class="node-sub" x="129" y="266" text-anchor="middle">Active Directory</text>
-        <text class="node-sub" x="129" y="280" text-anchor="middle">wass-production.local</text>
+        <text class="node-sub" x="129" y="280" text-anchor="middle">wass-industry.local</text>
         <circle class="status-pulse" cx="188" cy="234" r="4" fill="#e8a33d"/>
 
         <!-- Node: DC02 -->
@@ -126,7 +120,7 @@
 
         <!-- Node: SRV-DB -->
         <rect class="node-box accent" x="368" y="222" width="138" height="78" rx="4"/>
-        <text class="node-label" x="437" y="250" text-anchor="middle">SRV-DB</text>
+        <text class="node-label" x="437" y="250" text-anchor="middle">SRV-BDD</text>
         <text class="node-sub" x="437" y="266" text-anchor="middle">Ubuntu</text>
         <text class="node-sub" x="437" y="280" text-anchor="middle">MariaDB</text>
         <circle class="status-pulse" cx="496" cy="234" r="4" fill="#e8a33d"/>
@@ -196,7 +190,7 @@
       </a>
       <a class="card" href="annuaire.html">
         <div class="card-head"><h3>Annuaire AD</h3><span class="badge up">actif</span></div>
-        <p>DC01 / DC02 — domaine wass-production.local, réplication.</p>
+        <p>DC01 / DC02 — domaine wass-industry.local, réplication.</p>
       </a>
       <a class="card" href="donnees-automatisation.html">
         <div class="card-head"><h3>Données &amp; automatisation</h3><span class="badge up">actif</span></div>

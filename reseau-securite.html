@@ -61,7 +61,7 @@
     <h2 class="section">Plan d'adressage</h2>
     <pre class="snippet"><span class="k">réseau</span>       <span class="v">172.16.28.0/24</span>
 <span class="k">passerelle</span>   <span class="v">172.16.28.1</span>  (OPNsense)
-<span class="k">domaine AD</span>   <span class="v">wass-production.local</span>
+<span class="k">domaine AD</span>   <span class="v">wass-industry.local</span>
 <span class="k">DNS primaire</span> <span class="v">DC01</span>
 <span class="k">DNS secondaire</span> <span class="v">DC02</span></pre>
 
@@ -71,7 +71,7 @@
         explicites vers les services exposés (reverse proxy) sont autorisées.</li>
       <li>Le trafic LAN → WAN est ouvert pour l'instant, avec un objectif de segmentation plus fine
         (VLAN par usage : administration, services, tests) à mesure que le lab grandit.</li>
-      <li>Nginx Proxy Manager (sur SRV-DOCKER) centralise l'exposition HTTP/HTTPS des services web,
+      <li>Futur mise en place : Nginx Proxy Manager (sur SRV-DOCKER) centralise l'exposition HTTP/HTTPS des services web,
         pour n'ouvrir qu'un point d'entrée contrôlé plutôt que chaque service individuellement.</li>
     </ul>
 

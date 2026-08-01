@@ -43,38 +43,38 @@
     <p class="eyebrow">infrastructure</p>
     <h1 class="page-title">Hyperviseurs</h1>
     <p class="lede">Deux hyperviseurs cohabitent : Hyper-V comme socle principal du lab, Proxmox VE
-      comme terrain secondaire pour les tests qui ne doivent pas perturber le domaine en place.</p>
+      comme terrain secondaire et qui deviendra le socle de référence.</p>
 
     <h2 class="section">Hyper-V — hôte principal <span class="badge up">actif</span></h2>
-    <p>Héberge la majorité de la maquette : le pare-feu OPNsense, les deux contrôleurs de domaine,
-      le serveur de base de données et le serveur Docker. Choisi comme socle principal car c'est
-      l'hyperviseur utilisé au quotidien en environnement Windows Server chez l'employeur.</p>
+    <p>Héberge la majorité de l'infrastructure : le pare-feu OPNsense, les deux contrôleurs de domaine,
+      le serveur de base de données et le serveur Docker. Choisi comme socle principal par manque de ressources physiques sur le système Proxmox.</p>
     <table class="spec">
       <tr><th>Rôle</th><td>Hôte de virtualisation principal</td></tr>
-      <tr><th>Système hôte</th><td>Windows Server (rôle Hyper-V)</td></tr>
-      <tr><th>Réseau virtuel</th><td>Commutateur externe → LAN OPNsense (172.16.28.0/24)</td></tr>
-      <tr><th>VM hébergées</th><td>OPNsense, DC01, DC02, SRV-DB, SRV-DOCKER</td></tr>
+      <tr><th>Système hôte</th><td>Windows 11 (rôle Hyper-V)</td></tr>
+      <tr><th>Réseau virtuel</th><td>Commutateur Virtuel → LAN OPNsense (172.16.28.0/24)</td></tr>
+      <tr><th>VM hébergées</th><td>OPNsense, DC01, DC02, SRV-DB, SRV-DOCKER, Ansible</td></tr>
     </table>
-    <p class="small">Mis en place et durci au fil du projet : activation VT-x en BIOS/UEFI, migration du
-      disque système vers un SSD 500 Go (clonage Macrium Reflect), et fiabilisation de l'espace disque
-      pour éviter les échecs de Smart Paging.</p>
+    <p class="small">Mis en place au fil du projet : futur migration des
+      disques virtuels Hyper-V vers Proxmox afin d'avoir un hyperviseur fonctionnel 24/7.</p>
+    </p>
 
     <h2 class="section">Proxmox VE — hôte secondaire <span class="badge up">actif</span></h2>
     <p>Sert de bac à sable isolé : tester une brique (mise à jour, nouvelle stack, casse volontaire)
       sans risquer la stabilité du domaine hébergé sur Hyper-V. Vocation à terme : accueillir les VM
       d'automatisation et de supervision de sécurité (Ansible/AWX, Wazuh) une fois validées.</p>
     <table class="spec">
-      <tr><th>Rôle</th><td>Hôte de virtualisation secondaire / tests</td></tr>
+      <tr><th>Rôle</th><td>Hôte de virtualisation secondaire</td></tr>
       <tr><th>Système hôte</th><td>Proxmox VE</td></tr>
-      <tr><th>Usage</th><td>Isolation des essais, futures VM Ansible/AWX et Wazuh</td></tr>
+      <tr><th>Usage</th><td>futur hébérgement des VM Linux / Debian & AD Secondaire</td></tr>
     </table>
 
     <h2 class="section">Pourquoi deux hyperviseurs ?</h2>
     <ul class="list-marked">
-      <li>Comparer concrètement deux écosystèmes de virtualisation (Type 1 Proxmox / rôle Hyper-V
-        sous Windows Server) plutôt que de rester sur un seul outil.</li>
-      <li>Cloisonner : le domaine de production du lab (AD, DNS, DB) reste stable pendant que
-        Proxmox absorbe les expérimentations risquées.</li>
+      <li>Comparer concrètement deux écosystèmes de virtualisation :
+        <br>Type 1 : Proxmox VE (Linux) 
+        <br>Type 2 : Hyper-V ( Windows Server)</li>
+      <li>Rédonder : les services critiques du domaine de production (AD, DNS, DHCP) sont répliqués ou redondés 
+        afin de limiter les points de défaillance uniques et garantir leur disponibilité</li>
       <li>Refléter la réalité du terrain, où les environnements sont rarement mono-hyperviseur.</li>
     </ul>
 

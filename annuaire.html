@@ -36,35 +36,73 @@
         </ul>
       </div>
     </nav>
-    <div class="sidebar-foot">wass-production.local<br>172.16.28.0/24</div>
+    <div class="sidebar-foot">wass-industry.local<br>172.16.28.0/24</div>
   </aside>
 
   <main>
     <p class="eyebrow">services</p>
     <h1 class="page-title">Annuaire Active Directory</h1>
-    <p class="lede">Le domaine <code>wass-production.local</code> est porté par deux contrôleurs
+    <p class="lede">Le domaine <code>wass-industry.local</code> est porté par deux contrôleurs
       de domaine, pour pratiquer une topologie réplication et non un AD à contrôleur unique.</p>
 
     <h2 class="section">DC01 <span class="badge up">actif</span></h2>
     <table class="spec">
       <tr><th>Rôle</th><td>Contrôleur de domaine principal</td></tr>
-      <tr><th>Domaine</th><td>wass-production.local</td></tr>
-      <tr><th>Services</th><td>AD DS, DNS, catalogue global</td></tr>
+      <tr><th>Domaine</th><td>wass-industry.local</td></tr>
+      <tr><th>Services</th><td>AD DS, DNS, Fichiers</td></tr>
     </table>
 
     <h2 class="section">DC02 <span class="badge up">actif</span></h2>
     <table class="spec">
       <tr><th>Rôle</th><td>Contrôleur de domaine secondaire — réplication</td></tr>
-      <tr><th>Domaine</th><td>wass-production.local</td></tr>
+      <tr><th>Domaine</th><td>wass-industry.local</td></tr>
       <tr><th>Services</th><td>AD DS, DNS secondaire</td></tr>
     </table>
 
+    <h2 class="section">Structure de l'annuaire (OU)</h2>
+    <p>Arborescence organisée sous une OU racine dédiée <code>Wass-Industry</code>, qui isole les
+      objets métier des conteneurs par défaut du domaine (Builtin, Computers, Users). Elle sépare
+      les comptes d'administration, les groupes, les postes et les utilisateurs par service.</p>
+    <pre class="snippet"><span class="k">wass-industry.local</span>
+└─ <span class="v">Wass-Industry</span>
+   ├─ Admin
+   ├─ Groupes
+   │  └─ GRP-Sécurité
+   ├─ Imprimantes
+   ├─ Ordinateurs
+   │  ├─ Postes-Direction
+   │  ├─ Postes-IT
+   │  ├─ Postes-Production
+   │  ├─ Postes-RD
+   │  ├─ Postes-RH
+   │  └─ Serveurs
+   └─ Utilisateurs
+      ├─ Commercial
+      ├─ Direction
+      ├─ IT
+      ├─ Production
+      ├─ R&amp;D
+      ├─ RH
+      └─ Support-Client</pre>
+
+    <h2 class="section">Détail des OU</h2>
+    <table class="spec">
+      <tr><th>Admin</th><td>Comptes d'administration par service, séparés des comptes utilisateurs standards</td></tr>
+      <tr><th>Groupes</th><td>Groupes de sécurité — dont GRP-Sécurité pour les droits transverses</td></tr>
+      <tr><th>Imprimantes</th><td>Objets imprimante publiés dans l'annuaire</td></tr>
+      <tr><th>Ordinateurs</th><td>Postes de travail répartis par service (Direction, IT, Production, R&amp;D, RH), plus une sous-OU Serveurs</td></tr>
+      <tr><th>Utilisateurs</th><td>Comptes utilisateurs répartis par service : Commercial, Direction, IT, Production, R&amp;D, RH, Support-Client</td></tr>
+    </table>
+    <p class="small">Cette segmentation par service permet d'appliquer des GPO et des délégations
+      ciblées (ex. restrictions spécifiques sur Postes-Production, droits élargis sur Comptes-Admin)
+      plutôt qu'une politique unique pour tout le domaine.</p>
+
     <h2 class="section">Pourquoi deux DC ?</h2>
     <ul class="list-marked">
-      <li>Pratiquer la réplication AD et le comportement du domaine en cas de perte d'un
-        contrôleur — un scénario impossible à tester avec un seul DC.</li>
+      <li>Mettre en place une réplication AD et domaine en cas de perte d'un
+        contrôleur.</li>
       <li>Assurer une résolution DNS interne redondante pour le reste du lab (base de données,
-        conteneurs, futures VM d'automatisation).</li>
+        conteneurs, futures VM).</li>
       <li>Se rapprocher d'une architecture d'entreprise réaliste, où un AD mono-DC n'existe
         quasiment jamais en production.</li>
     </ul>
