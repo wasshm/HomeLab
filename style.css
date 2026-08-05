@@ -28,30 +28,39 @@
 html{ scroll-behavior:smooth; }
 
 body{
-  background:var(--bg);
+  background-color:var(--bg);
   color:var(--text);
   font-family:var(--sans);
   font-size:15px;
   line-height:1.65;
   -webkit-font-smoothing:antialiased;
+  /* tasteful, slightly more visible backdrop (not too faded) */
+  background-image:
+    radial-gradient(ellipse at 8% -10%, rgba(232,163,61,0.06), transparent 22%),
+    linear-gradient(180deg, rgba(255,255,255,0.018), transparent 40%);
+  background-size:cover;
 }
 
-/* subtle grid texture on the background, very low contrast */
-body{
-  background-image:
-    linear-gradient(var(--border) 1px, transparent 1px),
-    linear-gradient(90deg, var(--border) 1px, transparent 1px);
-  background-size:64px 64px;
-  background-position:-1px -1px;
-  background-attachment:fixed;
-  background-color:var(--bg);
-}
 body::before{
   content:"";
   position:fixed; inset:0;
-  background:radial-gradient(ellipse 900px 500px at 12% -10%, rgba(232,163,61,0.06), transparent 60%);
+  background:radial-gradient(ellipse 900px 500px at 12% -10%, rgba(232,163,61,0.10), transparent 60%);
   pointer-events:none;
   z-index:0;
+}
+
+/* subtle overlay texture: thin diagonal grain + soft vignette */
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.004) 0 1px, transparent 1px 10px),
+    radial-gradient(circle at 50% 80%, rgba(0,0,0,0.08), transparent 45%);
+  mix-blend-mode:overlay;
+  opacity:0.95;
 }
 
 a{ color:var(--teal); text-decoration:none; }
@@ -71,7 +80,10 @@ code, .mono{ font-family:var(--mono); }
   position:relative;
   z-index:1;
   display:grid;
-  grid-template-columns:240px 1fr;
+  /* keep sidebar + centered content column */
+  grid-template-columns:240px minmax(0,920px);
+  justify-content:center;
+  gap:20px;
   min-height:100vh;
 }
 
@@ -341,6 +353,19 @@ pre.snippet .v{ color:var(--accent); }
   .status-pulse{ animation:none; }
   html{ scroll-behavior:auto; }
 }
+
+/* Page transition: visible by default; gentle fade only when JS enables it */
+html.js-enabled, body.js-enabled{
+  transition:opacity .28s ease, transform .28s ease;
+}
+body{
+  opacity:1;
+  transform:none;
+}
+body.js-enabled.is-exiting{ opacity:0; transform:translateY(6px); pointer-events:none; }
+
+/* Ensure anchors land below the fixed top spacing */
+h1.page-title, h2.section{ scroll-margin-top:88px; }
 
 /* ---------------------------------------------------------------------- */
 /* responsive                                                              */
